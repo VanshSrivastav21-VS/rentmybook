@@ -1,0 +1,108 @@
+{% load static %}
+
+
+{% block css %}
+    <style>
+                /* Footer */
+                footer {
+            background-color: #222;
+            color: #fff;
+            padding: 40px 0;
+        }
+        h5 {
+            color: #fff;
+            margin-bottom: 20px;
+        }
+        p, .nav-link {
+            color: #aaa;
+        }
+        .gallery-img {
+            width: 100%;
+            height: 100px;
+            object-fit: cover;
+            margin-bottom: 15px;
+        }
+        .btn-subscribe {
+            background-color: #ac8f58;
+            border: none;
+            color: #fff;
+        }
+        .btn-subscribe:hover {
+            background-color: #8c7446;
+        }
+        .back-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #ac8f58;
+            color: #fff;
+            width: 40px;
+            height: 40px;
+            text-align: center;
+            line-height: 40px;
+            border-radius: 5px;
+        }
+    </style>
+{% endblock css %}
+    
+
+
+{% block body %}
+        <!-- Footer -->
+        <footer>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3 mb-4">
+                        <h5>About us</h5>
+                        <p>Booksmart is the worldwide textbook rental service created by readers for readers. We operate since 1999 and we offer lots of new and used textbooks on various topics including web design, development, business, and more.</p>
+                    </div>
+                    <div class="col-md-3 mb-4">
+                        <h5>Quick links</h5>
+                        <ul class="nav flex-column">
+                            <li class="nav-item"><a href="#" class="nav-link">About</a></li>
+                            <li class="nav-item"><a href="#" class="nav-link">Services</a></li>
+                            <li class="nav-item"><a href="#" class="nav-link">Shop</a></li>
+                            <li class="nav-item"><a href="#" class="nav-link">Blog</a></li>
+                            <li class="nav-item"><a href="#" class="nav-link">Portfolio</a></li>
+                            <li class="nav-item"><a href="#" class="nav-link">Contacts</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-3 mb-4">
+                        <h5>Gallery</h5>
+                        <div class="row">
+                            <div class="col-6 col-md-6 mb-3">
+                                <img src="{% static '/images/footer1.jpg' %}" alt="Gallery Image" class="gallery-img">
+                            </div>
+                            <div class="col-6 col-md-6 mb-3">
+                                <img src="{% static '/images/footer2.jpg' %}" alt="Gallery Image" class="gallery-img">
+                            </div>
+                            <div class="col-6 col-md-6 mb-3">
+                                <img src="{% static '/images/footer3.jpg' %}" alt="Gallery Image" class="gallery-img">
+                            </div>
+                            <div class="col-6 col-md-6 mb-3">
+                                <img src="{% static '/images/footer4.jpg' %}" alt="Gallery Image" class="gallery-img">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-4">
+                        <h5>Newsletter</h5>
+                        <p>Keep up with our always upcoming news, updates, and publications. Enter your e-mail and subscribe to our newsletter.</p>
+                        <form>
+                            <div class="mb-3">
+                                <input type="email" class="form-control" placeholder="Enter your e-mail">
+                            </div>
+                            <button type="submit" class="btn btn-subscribe">SUBSCRIBE</button>
+                        </form>
+                    </div>
+                </div>
+                <div class="row mt-4">
+                    <div class="col-12">
+                        <p class="text-center">© 2024. All Rights Reserved. Privacy Policy</p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        
+        <a href="#" class="back-to-top">↑</a>
+{% endblock body %}
+    

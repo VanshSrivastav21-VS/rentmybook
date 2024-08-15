@@ -11,7 +11,8 @@ stripe.api_key = settings.STRIPE_API_KEY_HIDDEN
 
 def home(request):
     books = Book.objects.all().order_by('-id')[:4]
-    return render(request, 'books/home.html', {'books': books})
+    news_items = News.objects.order_by('-date')[:3]
+    return render(request, 'books/home.html', {'books': books, 'news_items':news_items})
 
 
 def books(request):
@@ -93,7 +94,7 @@ def dashboard(request):
     return render(request, 'books/dashboard.html', {'rentals': rentals, 'purchases': purchases})
 
 def latest_news(request):
-    news_items = News.objects.order_by('-date')[:3]
+    news_items = News.objects.order_by('-date')    # [:3]
     return render(request, 'books/latest_news.html', {'news_items': news_items})
 
 def about(request):

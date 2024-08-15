@@ -39,6 +39,7 @@
     .button:hover {
         background-color: #8c7446;
         color: #ffffff;
+        text-decoration: none;
     }
 
     .button:active {
@@ -168,6 +169,8 @@
 
     .btn-view:hover {
         background-color: #0056b3;
+        color: white;
+        text-decoration: none;
     }
 
 
@@ -303,7 +306,8 @@
                     partner with dozens of book providers, you always get the best prices without spending the time
                     to find the best place to rent your favorite novels or college textbooks. Moreover, they are all
                     available for online booking in just a few mouse clicks.</p>
-                <a class="button button-nina offset-top-40 d-inline-block" href="#"><span>learn more</span></a>
+                <a class="button button-nina offset-top-40 d-inline-block" href="{% url 'about' %}"><span>learn
+                        more</span></a>
             </div>
             <div class="col-md-10 col-lg-6">
                 <img src="{% static 'images/header2.jpg' %}" alt="About Us Image" width="718" height="628">
@@ -384,6 +388,28 @@
                 </div>
             </div>
         </div>
+    </div>
+</section>
+
+<!-- latest News -->
+<section class="latest-news my-5 p-4">
+    <h2 class="section-title text-center">Latest News</h2>
+    <div class="row">
+        {% for item in news_items %}
+        <div class="col-md-4 col-sm-6 mb-4">
+            <div class="card news-card">
+                <img src="{{ item.image.url }}" class="card-img-top" alt="{{ item.title }}">
+                <div class="card-body">
+                    <p class="news-date"><i class="fas fa-calendar-alt"></i> {{ item.date|date:"F d, Y \a\t H:i a" }}
+                    </p>
+                    <h5 class="card-title">{{ item.title }}</h5>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="text-center mt-3">
+        <a href="{% url 'latest_news' %}" class="button view-all-btn">View All Posts</a>
     </div>
 </section>
 

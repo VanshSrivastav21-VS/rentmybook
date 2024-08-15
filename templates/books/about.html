@@ -154,6 +154,26 @@
         height: auto;
         margin-bottom: 20px;
     }
+
+    header {
+    background-color: #b8860b;
+    font-size: 14px;
+}
+
+header a {
+    text-decoration: none;
+    font-weight: bold;
+}
+
+header a:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 576px) {
+    header {
+        font-size: 12px;
+    }
+}
 </style>
 {% endblock css %}
 
@@ -222,6 +242,12 @@
         </div>
     </div>
 </div>
+
+<header class="sticky-top">
+    <div class="container-fluid py-2 text-center text-white">
+        Booksmart is ready to help you. Do you need a consultation? <a href="tel:+1234567890" class="text-white">Call us now!</a>
+    </div>
+</header>
 
 
 {% endblock body %}

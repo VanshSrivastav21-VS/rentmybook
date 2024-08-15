@@ -45,17 +45,33 @@
         transform: scale(1.05);
     }
 
-    .view-all-btn {
+    .button {
+        display: inline-block;
+        padding: 15px 26px;
         background-color: #ac8f58;
-        border-color: #ac8f58;
-        color: white;
+        color: #ffffff;
+        border: none;
+        border-radius: 25px;
+        font-size: 1rem;
+        font-weight: bold;
+        text-transform: uppercase;
+        cursor: pointer;
+        text-decoration: none;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+        text-align: center;
     }
 
-    .view-all-btn:hover {
+    .button:hover {
         background-color: #8c7446;
-        border-color: #8c7446;
-        color: white;
+        color: #ffffff;
+        text-decoration: none;
     }
+
+    .button:active {
+        background-color: #ac8f58;
+        transform: translateY(1px);
+    }
+
 
     /* Responsive Design */
     @media (max-width: 768px) {
@@ -69,6 +85,32 @@
             margin-bottom: 15px;
         }
     }
+
+    h1 {
+    font-size: 1.8rem;
+    color: #6c757d;
+}
+
+h4 {
+    font-size: 1.2rem;
+    color: #495057;
+}
+
+.btn-outline-secondary {
+    color: #b8860b;
+    border-color: #b8860b;
+}
+
+.btn-outline-secondary:hover {
+    background-color: #b8860b;
+    color: white;
+}
+
+@media (max-width: 768px) {
+    h1 {
+        font-size: 1.5rem;
+    }
+}
 </style>
 {% endblock css %}
 
@@ -90,8 +132,47 @@
         </div>
         {% endfor %}
     </div>
-    <div class="text-center mt-4">
-        <button class="btn view-all-btn">VIEW ALL POSTS</button>
-    </div>
+    <!-- <div class="text-center mt-3">
+        <a href="#" class="button view-all-btn">View All Posts</a>
+    </div> -->
 </section>
+
+<!-- <div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8">
+            <img src="library.jpg" class="img-fluid mb-3" alt="Library bookshelf">
+            <h1 class="text-muted">What to Read This Summer: The Best Book Selection</h1>
+            <div class="d-flex align-items-center text-muted mb-3">
+                <small><i class="bi bi-person-fill me-2"></i>by Ronald Chan</small>
+                <small class="ms-3"><i class="bi bi-calendar-fill me-2"></i>Feb 27, 2019 at 5:47 pm</small>
+                <small class="ms-3"><i class="bi bi-tag-fill me-2"></i>Business</small>
+            </div>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
+        </div>
+        <div class="col-md-4">
+            <div class="mb-4">
+                <h4>Search</h4>
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Search">
+                    <button class="btn btn-outline-secondary" type="button"><i class="bi bi-search"></i></button>
+                </div>
+            </div>
+            <div class="mb-4">
+                <h4>Archive</h4>
+                <ul class="list-unstyled">
+                    <li><a href="#" class="text-muted">January 2019</a></li>
+                    <li><a href="#" class="text-muted">February 2019</a></li>
+                    <li><a href="#" class="text-muted">March 2019</a></li>
+                    <li><a href="#" class="text-muted">April 2019</a></li>
+                    <li><a href="#" class="text-muted">May 2019</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>About us</h4>
+                <p class="text-muted">Suspendisse sed nisi lacus sed viverra tellus. Amet nisi suscipit adipiscing bibendum est ultricies integer...</p>
+                <button class="btn btn-outline-secondary">LEARN MORE</button>
+            </div>
+        </div>
+    </div>
+</div> -->
 {% endblock body %}
