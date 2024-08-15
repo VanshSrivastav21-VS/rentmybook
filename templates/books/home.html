@@ -1,21 +1,411 @@
 {% extends 'layout/base.html' %}
+{% load static %}
 
 {% block title %}Home - Book Rental{% endblock %}
 
+
+{% block css %}
+<style>
+    img {
+        display: inline-block;
+        max-width: 100%;
+        height: auto;
+        vertical-align: middle;
+        border-style: none;
+    }
+
+    section {
+        padding-bottom: 3rem;
+    }
+
+    /* General button styling */
+
+    .button {
+        display: inline-block;
+        padding: 15px 26px;
+        background-color: #ac8f58;
+        color: #ffffff;
+        border: none;
+        border-radius: 25px;
+        font-size: 1rem;
+        font-weight: bold;
+        text-transform: uppercase;
+        cursor: pointer;
+        text-decoration: none;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+        text-align: center;
+    }
+
+    .button:hover {
+        background-color: #8c7446;
+        color: #ffffff;
+    }
+
+    .button:active {
+        background-color: #ac8f58;
+        transform: translateY(1px);
+    }
+
+    /* Hero section styles */
+    .hero-section {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .hero-section img {
+        width: 100%;
+        height: auto;
+        max-height: 500px;
+        object-fit: cover;
+    }
+
+    .hero-section .catalog {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        color: white;
+    }
+
+    .hero-section .catalog h2 {
+        font-size: 1.5rem;
+        font-weight: 600;
+    }
+
+    .hero-section .catalog .lead {
+        color: white;
+        font-size: 4rem;
+        font-weight: 700;
+    }
+
+    .hero-section .catalog p {
+        color: white;
+        font-size: 1.1rem;
+    }
+
+    .hero-section .catalog button a {
+        text-decoration: none;
+    }
+
+
+    /* Book Rental */
+    .book-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 2rem;
+    }
+
+    .book-item {
+        background: #ffffff;
+        border-radius: 12px;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        position: relative;
+        padding: 1rem;
+        /* Inner padding for the card */
+    }
+
+    .book-item:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    .book-cover {
+        width: 100%;
+        height: 300px;
+        /* Adjust height as needed */
+        overflow: hidden;
+        margin-bottom: 1rem;
+        border-radius: 8px;
+        position: relative;
+    }
+
+    .book-cover img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+        border-radius: 8px;
+    }
+
+    .book-item:hover .book-cover img {
+        transform: scale(1.05);
+    }
+
+    .book-info {
+        padding: 1rem;
+        text-align: center;
+        background: #f9f9f9;
+        border-radius: 8px;
+    }
+
+    .book-title {
+        font-size: 1.2rem;
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+        color: #333;
+    }
+
+    .book-author {
+        font-size: 1rem;
+        color: #888;
+        margin-bottom: 1rem;
+    }
+
+    .btn-view {
+        display: inline-block;
+        padding: 0.75rem 1.5rem;
+        background-color: #007bff;
+        color: white;
+        text-align: center;
+        text-decoration: none;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+        font-size: 0.9rem;
+    }
+
+    .btn-view:hover {
+        background-color: #0056b3;
+    }
+
+
+    /* Testimonial section styles */
+    .testimonial-section {
+        background-color: #f8f9fa;
+        max-height: 500px;
+        height: 500px;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .testimonial-container {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        overflow: auto;
+    }
+
+    .testimonial-section h2 {
+        font-size: 2.5rem;
+        font-weight: bold;
+        color: #333;
+        position: relative;
+    }
+
+    .testimonial-section h2::after {
+        content: '';
+        display: block;
+        width: 50px;
+        height: 3px;
+        background-color: #ac8f58;
+        margin-top: 10px;
+    }
+
+    .testimonial-card {
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        position: relative;
+        padding: 20px;
+        margin: 20px 0;
+        border: 1px solid #ddd;
+        background: #fff;
+    }
+
+    .testimonial-card::after {
+        content: '\201D';
+        font-size: 6rem;
+        color: #ac8f58;
+        position: absolute;
+        top: 10px;
+        right: 20px;
+        line-height: 1;
+    }
+
+    .client-image {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+
+    .testimonial-card h5 {
+        color: #333;
+        font-weight: bold;
+    }
+
+    .testimonial-card p {
+        color: #666;
+        font-size: 0.9rem;
+        line-height: 1.6;
+    }
+
+    /* Stats section styles */
+    .stats-section {
+        background-color: #343a40;
+        color: white;
+        text-align: center;
+    }
+
+    .stat-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 1rem;
+        padding: 20px;
+    }
+
+    .stat-number {
+        font-size: 2.5rem;
+        font-weight: bold;
+        color: #ac8f58;
+    }
+
+    .stat-item div {
+        margin: 0.5rem 0;
+    }
+</style>
+{% endblock css %}
+
+
 {% block body %}
-<h1>Welcome to Book Rental</h1>
-<div class="row">
-    {% for book in books %}
-    <div class="col-md-4 mb-4">
-        <div class="card">
-            <img src="{{ book.cover_image.url }}" class="card-img-top" alt="{{ book.title }}">
-            <div class="card-body">
-                <h5 class="card-title">{{ book.title }}</h5>
-                <p class="card-text">{{ book.author }}</p>
-                <a href="{% url 'book_detail' book.id %}" class="btn btn-primary">View Details</a>
+<!-- Header Section -->
+<section class="hero-section">
+    <div class="mb-4 text-white rounded position-relative">
+        <img src="{% static 'images/header.jpg' %}" alt="Hero Image">
+        <div class="catalog col-md-6 px-0 text-center">
+            <h2 class="display-4">Welcome to Booksmart</h2>
+            <p class="lead my-3">News & Used Books</p>
+            <p class="my-3">From applied literature to educational resources, we have a lot of textbooks to offer
+                you. We provide only the best books for rent.</p>
+            <button class="button button-nina mb-0">
+                <a href="#" class="fw-bold text-white">View Explore</a>
+            </button>
+        </div>
+    </div>
+</section>
+
+<!-- About us -->
+<section class="section section-lg novi-background bg-cover">
+    <div class="container container-bigger">
+        <div class="row row-50 justify-content-md-center align-items-lg-center justify-content-xl-between">
+            <div class="col-md-10 col-lg-6 col-xxl-5">
+                <div class="parallax-text-wrap">
+                    <h2 class="fw-bold">A Few Words About Us</h2>
+                    <span class="parallax-text">About Us</span>
+                </div>
+                <hr class="divider divider-left divider-default">
+                <p class="heading-5">Booksmart provides a variety of books for rent or purchase throughout the USA.
+                    We work with publishers directly to give you the widest choice of books.</p>
+                <p>Since our establishment in 1999, we help our clients save on books they choose to rent. As we
+                    partner with dozens of book providers, you always get the best prices without spending the time
+                    to find the best place to rent your favorite novels or college textbooks. Moreover, they are all
+                    available for online booking in just a few mouse clicks.</p>
+                <a class="button button-nina offset-top-40 d-inline-block" href="#"><span>learn more</span></a>
+            </div>
+            <div class="col-md-10 col-lg-6">
+                <img src="{% static 'images/header2.jpg' %}" alt="About Us Image" width="718" height="628">
             </div>
         </div>
     </div>
-    {% endfor %}
-</div>
+</section>
+
+<!-- Book Rental -->
+<section class="book_rental">
+    <div class="container mt-5">
+        <h1 class="text-center mb-5">Book Rental</h1>
+        <div class="book-grid">
+            {% for book in books %}
+            <div class="book-item">
+                <div class="book-cover">
+                    <img src="{{ book.cover_image.url }}" alt="{{ book.title }}">
+                </div>
+                <div class="book-info">
+                    <h2 class="book-title">{{ book.title|truncatewords:2 }}</h2>
+                    <p class="book-author">by {{ book.author }}</p>
+                    <a href="{% url 'book_detail' book.id %}" class="btn-view">View Details</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="text-center mt-3">
+            <a href="{% url 'books' %}" class="button view-all-btn">View More Books</a>
+        </div>
+    </div>
+</section>
+
+<!-- What People Say -->
+<section class="container-fluid mt-2">
+    <div class="row">
+        <!-- Testimonial Section -->
+        <div class="col-md-6 testimonial-section p-4">
+            <h2 class="mb-4">What People Say</h2>
+            <div class="testimonial-container">
+                <div class="testimonial-card p-4 mb-3">
+                    <div class="d-flex align-items-center mb-3">
+                        <img src="{% static '/images/smit.jpg' %}" alt="Jane Smith" class="client-image me-3">
+                        <div>
+                            <h5 class="mb-0">Jane Smith</h5>
+                            <small class="text-muted">Regular Client</small>
+                        </div>
+                    </div>
+                    <p class="mb-0">The books I rent here always arrive on time, which is of primary importance to
+                        me as I like to read a lot. I am especially interested in books about business and science
+                        and you have a diverse collection of them. Thank you for your service!</p>
+                </div>
+                <!-- Add more .testimonial-card elements as needed -->
+            </div>
+        </div>
+
+        <!-- Stats Section -->
+        <div class="col-md-6 stats-section p-4">
+            <div class="row">
+                <div class="col-6 stat-item">
+                    <i class="fa-solid fa-book fa-2x p-1"></i>
+                    <div class="stat-number">62,000+</div>
+                    <div>Textbooks</div>
+                </div>
+                <div class="col-6 stat-item">
+                    <i class="fa-solid fa-users fa-2x p-1"></i>
+                    <div class="stat-number">2,460</div>
+                    <div>Active Readers</div>
+                </div>
+                <div class="col-6 stat-item">
+                    <i class="fa-solid fa-award fa-2x p-1"></i>
+                    <div class="stat-number">1,200</div>
+                    <div>Awards</div>
+                </div>
+                <div class="col-6 stat-item">
+                    <i class="fa-solid fa-user fa-2x p-1"></i>
+                    <div class="stat-number">12,000</div>
+                    <div>Authors</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 {% endblock body %}

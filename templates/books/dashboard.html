@@ -2,30 +2,128 @@
 
 {% block title %}Dashboard - Book Rental{% endblock %}
 
+{% block css %}
+<style>
+    .dashboard-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    h1, h2 {
+        text-align: center;
+        color: #333;
+    }
+
+    .dashboard-row {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+
+    .card {
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        background-color: #fff;
+        flex: 1;
+        min-width: 300px;
+    }
+
+    .card-header {
+        font-size: 1.2rem;
+        font-weight: bold;
+        margin-bottom: 15px;
+        color: #555;
+    }
+
+    .card-body {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .card-body span {
+        font-size: 1rem;
+        color: #333;
+    }
+
+    .card-body a {
+        font-size: 0.9rem;
+        text-align: center;
+    }
+
+    .btn-secondary, .btn-primary {
+        border-radius: 5px;
+        padding: 8px 16px;
+        text-decoration: none;
+        color: #fff;
+        font-weight: bold;
+        display: inline-block;
+    }
+
+    .btn-secondary {
+        background-color: #6c757d;
+    }
+
+    .btn-secondary:hover {
+        background-color: #5a6268;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+    }
+
+    @media (max-width: 768px) {
+        .dashboard-row {
+            flex-direction: column;
+        }
+    }
+</style>
+{% endblock css %}
+
 {% block body %}
-<h1>Your Dashboard</h1>
+<div class="dashboard-container">
+    <h1>Welcome, {{ user.username }}!</h1>
 
-<h2>Rented Books</h2>
-<ul class="list-group">
-    {% for rental in rentals %}
-    <li class="list-group-item">
-        {{ rental.book.title }} - Return by: {{ rental.return_date|date:"F d, Y" }}
-        <a href="{{ rental.book.sample_pdf.url }}" class="btn btn-sm btn-secondary float-right" target="_blank">Read Book</a>
-    </li>
-    {% empty %}
-    <li class="list-group-item">You have no rented books.</li>
-    {% endfor %}
-</ul>
+    <div class="dashboard-row">
+        <div class="card">
+            <div class="card-header">Rented Books</div>
+            <div class="card-body">
+                {% if rentals %}
+                    {% for rental in rentals %}
+                        <div class="rental-item">
+                            <span>{{ rental.book.title }} - Return by: {{ rental.return_date|date:"F d, Y" }}</span>
+                            <a href="{{ rental.book.sample_pdf.url }}" class="btn btn-secondary" target="_blank">Read Book</a>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p>You have no rented books.</p>
+                {% endif %}
+            </div>
+        </div>
 
-<h2 class="mt-4">Purchased Books</h2>
-<ul class="list-group">
-    {% for purchase in purchases %}
-    <li class="list-group-item">
-        {{ purchase.book.title }} - Purchased on: {{ purchase.purchase_date|date:"F d, Y" }}
-        <a href="{{ purchase.book.full_pdf.url }}" class="btn btn-sm btn-primary float-right" download>Download</a>
-    </li>
-    {% empty %}
-    <li class="list-group-item">You have not purchased any books.</li>
-    {% endfor %}
-</ul>
+        <div class="card">
+            <div class="card-header">Purchased Books</div>
+            <div class="card-body">
+                {% if purchases %}
+                    {% for purchase in purchases %}
+                        <div class="purchase-item">
+                            <span>{{ purchase.book.title }} - Purchased on: {{ purchase.purchase_date|date:"F d, Y" }}</span>
+                            <a href="{{ purchase.book.full_pdf.url }}" class="btn btn-primary" download>Download</a>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p>You have not purchased any books.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock body %}

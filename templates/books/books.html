@@ -1,0 +1,116 @@
+{% extends 'layout/base.html' %}
+
+{% block title %}{{ book.title }} - Book Rental{% endblock %}
+
+{% block css %}
+<style>
+    .book-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 2rem;
+    }
+
+    .book-item {
+        background: #ffffff;
+        border-radius: 12px;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        position: relative;
+        padding: 1rem; /* Inner padding for the card */
+    }
+
+    .book-item:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+    }
+
+    .book-cover {
+        width: 100%;
+        height: 300px; /* Adjust height as needed */
+        overflow: hidden;
+        margin-bottom: 1rem;
+        border-radius: 8px;
+        position: relative;
+    }
+
+    .book-cover img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+        border-radius: 8px;
+    }
+
+    .book-item:hover .book-cover img {
+        transform: scale(1.05);
+    }
+
+    .book-info {
+        padding: 1rem;
+        text-align: center;
+        background: #f9f9f9;
+        border-radius: 8px;
+    }
+
+    .book-title {
+        font-size: 1.2rem;
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+        color: #333;
+    }
+
+    .book-author {
+        font-size: 1rem;
+        color: #888;
+        margin-bottom: 1rem;
+    }
+
+    .btn-view {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #ac8f58;
+        color: #ffffff;
+        border: none;
+        border-radius: 25px;
+        font-size: 1rem;
+        font-weight: bold;
+        text-transform: uppercase;
+        cursor: pointer;
+        text-decoration: none;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+        text-align: center;
+    }
+
+    .btn-view:hover {
+        background-color: #8c7446;
+        color: #ffffff;
+    }
+
+    .btn-view:active {
+        background-color: #ac8f58;
+        transform: translateY(1px);
+    }
+
+</style>
+{% endblock css %}
+
+{% block body %}
+<div class="container mt-5">
+    <h1 class="text-center mb-5">Welcome to My Books</h1>
+    <div class="book-grid">
+        {% for book in books %}
+        <div class="book-item">
+            <div class="book-cover">
+                <img src="{{ book.cover_image.url }}" alt="{{ book.title }}">
+            </div>
+            <div class="book-info">
+                <h2 class="book-title">{{ book.title|truncatewords:2  }}</h2>
+                <!-- <p class="book-author">by {{ book.author }}</p> -->
+                <a href="{% url 'book_detail' book.id %}" class="btn-view">View Details</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock body %}

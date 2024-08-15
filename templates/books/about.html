@@ -1,0 +1,227 @@
+{% extends 'layout/base.html' %}
+{% load static %}
+
+{% block css %}
+<style>
+    .about-header {
+        background-image: url('{% static "images/about-bg.jpg" %}');
+        background-size: cover;
+        background-position: center;
+        height: 300px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        position: relative;
+    }
+
+    .about-header::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+    }
+
+    .about-header h1,
+    .about-header h2 {
+        font-weight: 600;
+        position: relative;
+        z-index: 1;
+    }
+
+    .content {
+        text-align: center;
+        padding: 50px 0;
+    }
+
+    .nav-links {
+        margin-top: 30px;
+    }
+
+    .nav-links a {
+        margin: 0 15px;
+        color: #007bff;
+        text-decoration: none;
+    }
+
+
+
+    .about-section {
+        padding: 80px 0;
+    }
+
+    .about-title {
+        font-size: 2.5rem;
+        margin-bottom: 30px;
+        position: relative;
+    }
+
+    .about-title::after {
+        content: '';
+        display: block;
+        width: 50px;
+        height: 3px;
+        background-color: #ffc107;
+        margin-top: 15px;
+    }
+
+    .learn-more-btn {
+        border: 2px solid #000;
+        padding: 10px 30px;
+        border-radius: 30px;
+        color: #000;
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+
+    .learn-more-btn:hover {
+        background-color: #000;
+        color: #fff;
+    }
+
+
+
+    .our-history{
+        background-color: #1a1a1a;
+        color: #ffffff;
+    }
+    .history-section {
+        padding: 80px 0;
+    }
+
+    .history-title {
+        font-size: 3rem;
+        margin-bottom: 30px;
+        position: relative;
+    }
+
+    .history-title::after {
+        content: '';
+        display: block;
+        width: 50px;
+        height: 3px;
+        background-color: #ffc107;
+        margin-top: 15px;
+    }
+
+    .timeline {
+        position: relative;
+        padding-left: 50px;
+    }
+
+    .timeline::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 2px;
+        background-color: #ffc107;
+    }
+
+    .timeline-item {
+        margin-bottom: 30px;
+        position: relative;
+    }
+
+    .timeline-item::before {
+        content: '';
+        position: absolute;
+        left: -54px;
+        top: 5px;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background-color: #ffc107;
+    }
+
+    .timeline-date {
+        font-size: 0.9rem;
+        color: #ffc107;
+        margin-bottom: 5px;
+    }
+
+    .timeline-title {
+        font-size: 1.5rem;
+        margin-bottom: 10px;
+    }
+
+    .book-images img {
+        max-width: 100%;
+        height: auto;
+        margin-bottom: 20px;
+    }
+</style>
+{% endblock css %}
+
+{% block body %}
+<div class="about-header">
+    <div>
+        <h1 class="display-6 text-white">Who We Are</h1>
+        <h2 class="display-1 text-white">About Us</h2>
+    </div>
+</div>
+
+<div class="container about-section">
+    <div class="row align-items-center">
+        <div class="col-lg-6 mb-4 mb-lg-0">
+            <img src="{% static '/images/about.jpg' %}" alt="Stack of books" class="img-fluid rounded">
+        </div>
+        <div class="col-lg-6">
+            <h2 class="about-title">A Few Words About Us</h2>
+            <p>Odio eu feugiat pretium nibh ipsum consequat. Vulputate sapien nec sagittis aliquam. Lorem ipsum dolor
+                sit amet consectetur. Amet consectetur adipiscing elit duis tristique sollicitudin nibh. Turpis in eu mi
+                bibendum.</p>
+            <p class="text-muted">Bibendum est ultricies integer quis auctor elit sed vulputate. Eget arcu dictum varius
+                duis at consectetur. Vulputate sapien nec sagittis aliquam malesuada. Tortor at risus viverra adipiscing
+                at in. Feugiat scelerisque varius morbi enim nunc faucibus a.</p>
+            <a href="#" class="learn-more-btn mt-3 d-inline-block">LEARN MORE</a>
+        </div>
+    </div>
+</div>
+
+<div class="our-history">
+    <div class="container history-section">
+        <h2 class="history-title">Our History</h2>
+        <div class="row">
+            <div class="col-lg-8">
+                <p class="mb-5">Lorem ipsum dolor sit amet, urna tincidunt porttitor dui eam, pri debet putant adipisci
+                    eu. Falli omnium an mea, probo dictas eruditi cu eum. At vim tation blandis iudicabit, ipsum
+                    epicurei in sea.</p>
+
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-date">April, 1999</div>
+                        <h3 class="timeline-title">We established Booksmart with an idea of creating a global book
+                            rental service</h3>
+                        <p>Amet vero ciones enim eram voluptate ut seboturb. Eget arcu dictum varius duis at consectetur
+                            lorem donec. Ullamcorper eget nulla facilisi etiam dignissim diam quis.</p>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-date">September, 2005</div>
+                        <h3 class="timeline-title">Partnering with European publishing houses</h3>
+                        <p>Magna ac placerat vestibulum lectus mauris ultrices eros in. Pellentesque eu tincidunt tortor
+                            aliquam nulla facilisi. Morbi tempus iaculis urna id volutpat lacus laoreet vulputate.</p>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-date">March, 2019</div>
+                        <h3 class="timeline-title">Offering book rental services worldwide</h3>
+                        <p>Nec ullamcorper sit amet risus nullam eget felis eget. Est ullamcorper eget nulla facilisi
+                            etiam dignissim diam quis. Volutpat sed cras ornare arcu dui vivamus.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 book-images">
+                <img src="{% static '/images/about2.jpg' %}" alt="Open book" class="img-fluid rounded mb-4">
+                <img src="{% static '/images/about3.jpg' %}" alt="Open book with coffee" class="img-fluid rounded mb-4">
+                <!-- <img src="{% static '/images/about4.jpg' %}" alt="Stack of books" class="img-fluid rounded"> -->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock body %}

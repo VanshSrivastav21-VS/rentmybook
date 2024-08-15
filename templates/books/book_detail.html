@@ -2,19 +2,85 @@
 
 {% block title %}{{ book.title }} - Book Rental{% endblock %}
 
+{% block css %}
+<style>
+    .book-container {
+        background-color: #f8f9fa;
+        border-radius: 15px;
+        box-shadow: 10px 10px 30px rgba(0,0,0,0.1);
+        width: 80%; /* Decreased the width to 80% */
+        margin: 0 auto; /* Centered the container */
+    }
+    
+    .book-image {
+        height: auto;
+        object-fit: cover;
+        width: 100%;
+    }
+
+    .book-details {
+        padding: .5rem;
+    }
+    
+    .book-title {
+        font-size: 1.5rem;
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+    }
+    
+    .book-author {
+        font-size: 1.2rem;
+        color: #6c757d;
+        margin-bottom: 1rem;
+    }
+    
+    .book-description {
+        font-size: 1rem;
+        line-height: 1.6;
+        margin-bottom: 1rem;
+    }
+    
+    .book-price {
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: #28a745;
+        margin-bottom: 1rem;
+    }
+    
+    .btn {
+        font-size: 1.1rem;
+        padding: 0.75rem 1.5rem;
+        margin-right: 1rem;
+        margin-bottom: 1rem;
+    }
+</style>
+{% endblock css %}
+
 {% block body %}
-<div class="row">
-    <div class="col-md-4">
-        <img src="{{ book.cover_image.url }}" class="img-fluid" alt="{{ book.title }}">
-    </div>
-    <div class="col-md-8">
-        <h1>{{ book.title }}</h1>
-        <h3>{{ book.author }}</h3>
-        <p>{{ book.description }}</p>
-        <p>Price: ${{ book.price }}</p>
-        <a href="{{ book.sample_pdf.url }}" class="btn btn-secondary" download>Download Sample</a>
-        <a href="{% url 'rent_book' book.id %}" class="btn btn-primary">Rent for 3 days</a>
-        <a href="{% url 'buy_book' book.id %}" class="btn btn-success">Buy Book</a>
+<div class="container mt-5">
+    <div class="book-container">
+        <div class="row g-0">
+            <!-- Book Cover Image -->
+            <div class="col-12 col-lg-5">
+                <img src="{{ book.cover_image.url }}" class="book-image" alt="{{ book.title }}">
+            </div>
+            <!-- Book Details -->
+            <div class="col-12 col-lg-7">
+                <div class="book-details">
+                    <h1 class="book-title">{{ book.title }}</h1>
+                    <h2 class="book-author">by {{ book.author }}</h2>
+                    <p class="book-description">{{ book.description }}</p>
+                    <p class="book-price">Price: ${{ book.price }}</p>
+                    
+                    <!-- Buttons -->
+                    <div class="d-flex flex-wrap">
+                        <a href="{{ book.sample_pdf.url }}" class="btn btn-outline-secondary" download>Download Sample</a>
+                        <a href="{% url 'rent_book' book.id %}" class="btn btn-primary">Rent for 3 Days</a>
+                        <a href="{% url 'buy_book' book.id %}" class="btn btn-success">Buy Book</a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 {% endblock body %}

@@ -29,3 +29,14 @@ class Purchase(models.Model):
     
     def __str__(self):
         return f"{self.user.username} - {self.book.title}"
+    
+class News(models.Model):
+    title = models.CharField(max_length=200)
+    date = models.DateTimeField()
+    image = models.ImageField(upload_to='news_images/')
+    
+    class Meta:
+        verbose_name_plural = "News"
+        
+    def __str__(self):
+        return self.title

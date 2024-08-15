@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Book, Rental, Purchase
+from .models import Book, Rental, Purchase, News
 
 @admin.register(Book)
 class BookAdmin(admin.ModelAdmin):
@@ -17,3 +17,11 @@ class PurchaseAdmin(admin.ModelAdmin):
     list_display = ('user', 'book', 'purchase_date')
     list_filter = ('purchase_date',)
     search_fields = ('user__username', 'book__title')
+
+@admin.register(News)
+class NewsAdmin(admin.ModelAdmin):
+    list_display = ('title', 'date')
+    list_filter = ('date',)
+    search_fields = ('title',)
+    ordering = ('-date',)
+    fields = ('title', 'date', 'image')

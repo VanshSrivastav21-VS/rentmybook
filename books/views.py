@@ -3,15 +3,21 @@ from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from datetime import timedelta
 from .forms import RentBookForm
-from .models import Book, Rental, Purchase
+from .models import Book, Rental, Purchase, News
 import stripe
 from django.conf import settings
 
 stripe.api_key = settings.STRIPE_API_KEY_HIDDEN
 
 def home(request):
-    books = Book.objects.all()
+    books = Book.objects.all().order_by('-id')[:4]
     return render(request, 'books/home.html', {'books': books})
+
+
+def books(request):
+    books = Book.objects.all().order_by('-id')
+    return render(request, 'books/books.html', {'books': books})
+
 
 def book_detail(request, book_id):
     book = get_object_or_404(Book, pk=book_id)
@@ -85,4 +91,11 @@ def dashboard(request):
     rentals = Rental.objects.filter(user=request.user)
     purchases = Purchase.objects.filter(user=request.user)
     return render(request, 'books/dashboard.html', {'rentals': rentals, 'purchases': purchases})
+
+def latest_news(request):
+    news_items = News.objects.order_by('-date')[:3]
+    return render(request, 'books/latest_news.html', {'news_items': news_items})
+
+def about(request):
+    return render(request, 'books/about.html')
 
