@@ -1,0 +1,20 @@
+{% extends 'layout/base.html' %}
+
+{% block title %}{{ book.title }} - Book Rental{% endblock %}
+
+{% block body %}
+<div class="row">
+    <div class="col-md-4">
+        <img src="{{ book.cover_image.url }}" class="img-fluid" alt="{{ book.title }}">
+    </div>
+    <div class="col-md-8">
+        <h1>{{ book.title }}</h1>
+        <h3>{{ book.author }}</h3>
+        <p>{{ book.description }}</p>
+        <p>Price: ${{ book.price }}</p>
+        <a href="{{ book.sample_pdf.url }}" class="btn btn-secondary" download>Download Sample</a>
+        <a href="{% url 'rent_book' book.id %}" class="btn btn-primary">Rent for 3 days</a>
+        <a href="{% url 'buy_book' book.id %}" class="btn btn-success">Buy Book</a>
+    </div>
+</div>
+{% endblock body %}

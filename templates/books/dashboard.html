@@ -1,0 +1,31 @@
+{% extends 'layout/base.html' %}
+
+{% block title %}Dashboard - Book Rental{% endblock %}
+
+{% block body %}
+<h1>Your Dashboard</h1>
+
+<h2>Rented Books</h2>
+<ul class="list-group">
+    {% for rental in rentals %}
+    <li class="list-group-item">
+        {{ rental.book.title }} - Return by: {{ rental.return_date|date:"F d, Y" }}
+        <a href="{{ rental.book.sample_pdf.url }}" class="btn btn-sm btn-secondary float-right" target="_blank">Read Book</a>
+    </li>
+    {% empty %}
+    <li class="list-group-item">You have no rented books.</li>
+    {% endfor %}
+</ul>
+
+<h2 class="mt-4">Purchased Books</h2>
+<ul class="list-group">
+    {% for purchase in purchases %}
+    <li class="list-group-item">
+        {{ purchase.book.title }} - Purchased on: {{ purchase.purchase_date|date:"F d, Y" }}
+        <a href="{{ purchase.book.full_pdf.url }}" class="btn btn-sm btn-primary float-right" download>Download</a>
+    </li>
+    {% empty %}
+    <li class="list-group-item">You have not purchased any books.</li>
+    {% endfor %}
+</ul>
+{% endblock body %}
