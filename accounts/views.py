@@ -9,7 +9,7 @@ def register(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            return redirect('dashboard')
+            return redirect('login')
     else:
         form = UserCreationForm()
     return render(request, 'accounts/register.html', {'form': form})
@@ -30,6 +30,4 @@ def custom_logout_view(request):
     logout(request)
     return redirect('home')
 
-@login_required
-def profile(request):
-    return render(request, 'accounts/profile.html')
+

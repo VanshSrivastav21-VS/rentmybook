@@ -35,7 +35,6 @@
                         </a>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown"> <!-- Aligned to the right -->
                             <a class="dropdown-item" href="{% url 'dashboard' %}">Dashboard</a>
-                            <a class="dropdown-item" href="{% url 'profile' %}">Profile</a>
                             <div class="dropdown-divider"></div>
                             <form id="logout-form" action="{% url 'logout' %}" method="post">
                                 {% csrf_token %}
