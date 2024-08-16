@@ -55,7 +55,7 @@
         text-align: center;
     }
 
-    .btn-secondary, .btn-primary {
+    .btn-success, .btn-primary {
         border-radius: 5px;
         padding: 8px 16px;
         text-decoration: none;
@@ -64,11 +64,11 @@
         display: inline-block;
     }
 
-    .btn-secondary {
+    /* .btn-success {
         background-color: #6c757d;
     }
 
-    .btn-secondary:hover {
+    .btn-success:hover {
         background-color: #5a6268;
     }
 
@@ -78,7 +78,7 @@
 
     .btn-primary:hover {
         background-color: #0056b3;
-    }
+    } */
 
     @media (max-width: 768px) {
         .dashboard-row {
@@ -100,7 +100,7 @@
                     {% for rental in rentals %}
                         <div class="rental-item">
                             <span>{{ rental.book.title }} - Return by: {{ rental.return_date|date:"F d, Y" }}</span>
-                            <a href="{{ rental.book.sample_pdf.url }}" class="btn btn-secondary" target="_blank">Read Book</a>
+                            <a href="{{ rental.book.sample_pdf.url }}" class="btn btn-primary" target="_blank">Read Book</a>
                         </div>
                     {% endfor %}
                 {% else %}
@@ -116,7 +116,7 @@
                     {% for purchase in purchases %}
                         <div class="purchase-item">
                             <span>{{ purchase.book.title }} - Purchased on: {{ purchase.purchase_date|date:"F d, Y" }}</span>
-                            <a href="{{ purchase.book.full_pdf.url }}" class="btn btn-primary" download>Download</a>
+                            <a href="{{ purchase.book.full_pdf.url }}" class="btn btn-success" download>Download</a>
                         </div>
                     {% endfor %}
                 {% else %}
