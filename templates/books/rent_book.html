@@ -54,8 +54,8 @@
 {% block body %}
 <div class="container mt-5">
     <div class="payment-container">
-        <h1>Buy {{ book.title }}</h1>
-        <form action="{% url 'buy_book' book.id %}" method="post" id="payment-form" class="payment-form">
+        <h1>Rent {{ book.title }}</h1>
+        <form action="{% url 'rent_book' book.id %}" method="post" id="payment-form" class="payment-form">
             {% csrf_token %}
             <div class="form-group mb-3">
                 <label for="name">Name</label>

@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from datetime import timedelta
 from .forms import RentBookForm
+from django.http import JsonResponse
 from .models import Book, Rental, Purchase, News
 import stripe
 from django.conf import settings
@@ -24,41 +25,47 @@ def book_detail(request, book_id):
     book = get_object_or_404(Book, pk=book_id)
     return render(request, 'books/book_detail.html', {'book': book})
 
+
 @login_required
 def rent_book(request, book_id):
     book = get_object_or_404(Book, id=book_id)
-    
-    if request.method == 'POST':
-        form = RentBookForm(request.POST)
-        if form.is_valid():
-            # Handle form data, e.g., save rental details to the database
-            
-            # Proceed to payment
-            # Create a Stripe Checkout session
-            session = stripe.checkout.Session.create(
-                payment_method_types=['card'],
-                line_items=[
-                    {
-                        'price_data': {
-                            'currency': 'usd',
-                            'product_data': {
-                                'name': book.title,
-                            },
-                            'unit_amount': int(book.rental_price * 100),  # amount in cents
-                        },
-                        'quantity': 1,
-                    },
-                ],
-                mode='payment',
-                success_url=request.build_absolute_uri('/success/'),
-                cancel_url=request.build_absolute_uri('/cancel/'),
-            )
-            return redirect(session.url, code=303)
 
-    else:
-        form = RentBookForm()
-    
-    return render(request, 'books/rent_book.html', {'form': form, 'book': book})
+    if request.method == 'POST':
+        # Get the Stripe token submitted by the form
+        token = request.POST.get('stripeToken')
+
+        try:
+            # Create a Stripe charge
+            charge = stripe.Charge.create(
+                amount=int(book.price * 100),  # Amount in cents
+                currency='usd',
+                description=f'Rental payment for {book.title}',
+                source=token,
+            )
+
+            # If charge is successful, create a Rental record
+            Rental.objects.create(
+                user=request.user,
+                book=book,
+                return_date=calculate_return_date(),  # You need to implement this
+            )
+
+            # Redirect to a success page or the user's dashboard
+            return redirect('dashboard')
+
+        except stripe.error.StripeError as e:
+            # Handle Stripe errors
+            return JsonResponse({'error': str(e)}, status=400)
+
+    context = {
+        'book': book,
+    }
+    return render(request, 'rent_book.html', context)
+
+def calculate_return_date():
+    from datetime import datetime, timedelta
+    # Assuming a rental period of 14 days
+    return datetime.now() + timedelta(days=14)
 
 @login_required
 def buy_book(request, book_id):

@@ -10,7 +10,8 @@
         padding: 20px;
     }
 
-    h1, h2 {
+    h1,
+    h2 {
         text-align: center;
         color: #333;
     }
@@ -55,7 +56,8 @@
         text-align: center;
     }
 
-    .btn-success, .btn-primary {
+    .btn-success,
+    .btn-primary {
         border-radius: 5px;
         padding: 8px 16px;
         text-decoration: none;
@@ -97,30 +99,31 @@
             <div class="card-header">Rented Books</div>
             <div class="card-body">
                 {% if rentals %}
-                    {% for rental in rentals %}
-                        <div class="rental-item">
-                            <span>{{ rental.book.title }} - Return by: {{ rental.return_date|date:"F d, Y" }}</span>
-                            <a href="{{ rental.book.sample_pdf.url }}" class="btn btn-primary" target="_blank">Read Book</a>
-                        </div>
-                    {% endfor %}
+                {% for rental in rentals %}
+                <div class="rental-item">
+                    <span>{{ rental.book.title }} - Return by: {{ rental.return_date|date:"F d, Y" }}</span>
+                    <a href="{{ rental.book.sample_pdf.url }}" class="btn btn-primary" target="_blank">Read Book</a>
+                </div>
+                {% endfor %}
                 {% else %}
-                    <p>You have no rented books.</p>
+                <p>You have no rented books.</p>
                 {% endif %}
             </div>
         </div>
+
 
         <div class="card">
             <div class="card-header">Purchased Books</div>
             <div class="card-body">
                 {% if purchases %}
-                    {% for purchase in purchases %}
-                        <div class="purchase-item">
-                            <span>{{ purchase.book.title }} - Purchased on: {{ purchase.purchase_date|date:"F d, Y" }}</span>
-                            <a href="{{ purchase.book.full_pdf.url }}" class="btn btn-success" download>Download</a>
-                        </div>
-                    {% endfor %}
+                {% for purchase in purchases %}
+                <div class="purchase-item">
+                    <span>{{ purchase.book.title }} - Purchased on: {{ purchase.purchase_date|date:"F d, Y" }}</span>
+                    <a href="{{ purchase.book.full_pdf.url }}" class="btn btn-success" download>Download</a>
+                </div>
+                {% endfor %}
                 {% else %}
-                    <p>You have not purchased any books.</p>
+                <p>You have not purchased any books.</p>
                 {% endif %}
             </div>
         </div>
