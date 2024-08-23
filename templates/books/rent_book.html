@@ -1,7 +1,5 @@
 {% extends 'layout/base.html' %}
-
-{% block title %}Buy {{ book.title }} - Book Rental{% endblock %}
-
+{% block title %}Rent {{ book.title }} - Book Rental{% endblock %}
 {% block css %}
 <style>
     .payment-container {
@@ -18,31 +16,29 @@
     }
     .button {
         width: 100%;
-            display: inline-block;
-            padding: 10px 20px;
-            background-color: #ac8f58;
-            color: #ffffff;
-            border: none;
-            border-radius: 25px;
-            font-size: 1rem;
-            font-weight: bold;
-            text-transform: uppercase;
-            cursor: pointer;
-            text-decoration: none;
-            transition: background-color 0.3s ease, transform 0.3s ease;
-            text-align: center;
-        }
-
-        .button:hover {
-            background-color: #8c7446;
-            color: #ffffff;
-            text-decoration: none;
-        }
-
-        .button:active {
-            background-color: #ac8f58;
-            transform: translateY(1px);
-        }
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #ac8f58;
+        color: #ffffff;
+        border: none;
+        border-radius: 25px;
+        font-size: 1rem;
+        font-weight: bold;
+        text-transform: uppercase;
+        cursor: pointer;
+        text-decoration: none;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+        text-align: center;
+    }
+    .button:hover {
+        background-color: #8c7446;
+        color: #ffffff;
+        text-decoration: none;
+    }
+    .button:active {
+        background-color: #ac8f58;
+        transform: translateY(1px);
+    }
     @media (max-width: 768px) {
         .payment-container {
             padding: 1.5rem;
@@ -50,7 +46,6 @@
     }
 </style>
 {% endblock css %}
-
 {% block body %}
 <div class="container mt-5">
     <div class="payment-container">
@@ -65,17 +60,28 @@
                 <label for="email">Email</label>
                 <input type="email" class="form-control" id="email" name="email" required>
             </div>
+            <div class="form-group mb-3">
+                <label for="phone">Phone Number</label>
+                <input type="tel" class="form-control" id="phone" name="phone" required>
+            </div>
+            <div class="form-group mb-3">
+                <label for="address">Address</label>
+                <textarea class="form-control" id="address" name="address" rows="3" required></textarea>
+            </div>
+            <div class="form-group mb-3">
+                <label for="rental_days">Number of Rental Days</label>
+                <input type="number" class="form-control" id="rental_days" name="rental_days" min="1" value="1" required>
+            </div>
             <div class="form-group mb-4">
                 <label for="card-element">Credit or debit card</label>
                 <div id="card-element" class="form-control"></div>
                 <div id="card-errors" role="alert" class="text-danger mt-2"></div>
             </div>
-            <button type="submit" class="button">Pay ${{ book.price }}</button>
+            <button type="submit" class="button" id="submit-button">Pay $<span id="button-price">{{ book.rental_price }}</span></button>
         </form>
     </div>
 </div>
 {% endblock body %}
-
 {% block js %}
 <script src="https://js.stripe.com/v3/"></script>
 <script>
@@ -83,14 +89,29 @@
     var elements = stripe.elements();
     var card = elements.create('card');
     card.mount('#card-element');
-
     var form = document.getElementById('payment-form');
+    var rentalDaysInput = document.getElementById('rental_days');
+    var buttonPrice = document.getElementById('button-price');
+    var submitButton = document.getElementById('submit-button');
+    
+    function updatePrice() {
+        var days = parseInt(rentalDaysInput.value);
+        var pricePerDay = parseFloat('{{ book.rental_price }}');
+        var totalPrice = (days * pricePerDay).toFixed(2);
+        buttonPrice.textContent = totalPrice;
+    }
+
+    rentalDaysInput.addEventListener('input', updatePrice);
+    updatePrice();
+
     form.addEventListener('submit', function(event) {
         event.preventDefault();
+        submitButton.disabled = true;
         stripe.createToken(card).then(function(result) {
             if (result.error) {
                 var errorElement = document.getElementById('card-errors');
                 errorElement.textContent = result.error.message;
+                submitButton.disabled = false;
             } else {
                 var hiddenInput = document.createElement('input');
                 hiddenInput.setAttribute('type', 'hidden');

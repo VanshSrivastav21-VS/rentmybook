@@ -66,7 +66,7 @@
         display: inline-block;
     }
 
-    /* .btn-success {
+    .btn-success {
         background-color: #6c757d;
     }
 
@@ -80,7 +80,7 @@
 
     .btn-primary:hover {
         background-color: #0056b3;
-    } */
+    }
 
     @media (max-width: 768px) {
         .dashboard-row {
@@ -102,7 +102,11 @@
                 {% for rental in rentals %}
                 <div class="rental-item">
                     <span>{{ rental.book.title }} - Return by: {{ rental.return_date|date:"F d, Y" }}</span>
-                    <a href="{{ rental.book.sample_pdf.url }}" class="btn btn-primary" target="_blank">Read Book</a>
+                    {% if rental.return_date >= now %}
+                        <a href="{{ rental.book.sample_pdf.url }}" class="btn btn-primary" target="_blank">Read Book</a>
+                    {% else %}
+                        <span class="text-muted">This book has expired.</span>
+                    {% endif %}
                 </div>
                 {% endfor %}
                 {% else %}
@@ -110,7 +114,6 @@
                 {% endif %}
             </div>
         </div>
-
 
         <div class="card">
             <div class="card-header">Purchased Books</div>

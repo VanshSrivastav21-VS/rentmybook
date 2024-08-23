@@ -60,12 +60,12 @@ def rent_book(request, book_id):
     context = {
         'book': book,
     }
-    return render(request, 'rent_book.html', context)
+    return render(request, 'books/rent_book.html', context)
 
 def calculate_return_date():
     from datetime import datetime, timedelta
     # Assuming a rental period of 14 days
-    return datetime.now() + timedelta(days=14)
+    return datetime.now() + timedelta(days=3)
 
 @login_required
 def buy_book(request, book_id):
@@ -96,9 +96,18 @@ def download_book(request, book_id):
 
 @login_required
 def dashboard(request):
-    rentals = Rental.objects.filter(user=request.user)
-    purchases = Purchase.objects.filter(user=request.user)
-    return render(request, 'books/dashboard.html', {'rentals': rentals, 'purchases': purchases})
+    user = request.user
+    now = timezone.now()
+    rentals = Rental.objects.filter(user=user, return_date__gte=now)
+    purchases = Purchase.objects.filter(user=user)
+    
+    context = {
+        'user': user,
+        'rentals': rentals,
+        'purchases': purchases,
+        'now': now,
+    }
+    return render(request, 'books/dashboard.html', context)
 
 def latest_news(request):
     news_items = News.objects.order_by('-date')    # [:3]
@@ -106,4 +115,6 @@ def latest_news(request):
 
 def about(request):
     return render(request, 'books/about.html')
+
+
 
