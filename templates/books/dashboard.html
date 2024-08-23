@@ -10,10 +10,11 @@
         padding: 20px;
     }
 
-    h1,
-    h2 {
+    h1 {
         text-align: center;
         color: #333;
+        margin-bottom: 30px;
+        font-size: 2rem;
     }
 
     .dashboard-row {
@@ -31,29 +32,67 @@
         background-color: #fff;
         flex: 1;
         min-width: 300px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
     }
 
     .card-header {
-        font-size: 1.2rem;
+        font-size: 1.5rem;
         font-weight: bold;
         margin-bottom: 15px;
-        color: #555;
+        color: #444;
+        border-bottom: 2px solid #007bff;
+        padding-bottom: 5px;
     }
 
     .card-body {
         display: flex;
         flex-direction: column;
-        gap: 10px;
+        gap: 15px;
+    }
+
+    .rental-item,
+    .purchase-item {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        border-bottom: 1px solid #ddd;
+        padding: 10px 0;
+    }
+
+    .rental-item:last-child,
+    .purchase-item:last-child {
+        border-bottom: none;
+    }
+
+    .book-image {
+        max-width: 100px;
+        max-height: 150px;
+        object-fit: cover;
+        margin-bottom: 10px;
+        border-radius: 5px;
+    }
+
+    .card-body p {
+        font-size: 1rem;
+        color: #333;
+        margin: 0;
+        flex: 1;
     }
 
     .card-body span {
-        font-size: 1rem;
-        color: #333;
+        font-size: 1.1rem;
+        font-weight: 500;
+        color: black;
     }
 
-    .card-body a {
+    .remaining-time {
         font-size: 0.9rem;
-        text-align: center;
+        color: #d9534f;
     }
 
     .btn-success,
@@ -64,6 +103,7 @@
         color: #fff;
         font-weight: bold;
         display: inline-block;
+        transition: background-color 0.3s ease, transform 0.3s ease;
     }
 
     .btn-success {
@@ -72,6 +112,7 @@
 
     .btn-success:hover {
         background-color: #5a6268;
+        transform: translateY(-2px);
     }
 
     .btn-primary {
@@ -80,11 +121,13 @@
 
     .btn-primary:hover {
         background-color: #0056b3;
+        transform: translateY(-2px);
     }
 
     @media (max-width: 768px) {
         .dashboard-row {
             flex-direction: column;
+            align-items: center;
         }
     }
 </style>
@@ -100,13 +143,13 @@
             <div class="card-body">
                 {% if rentals %}
                 {% for rental in rentals %}
-                <div class="rental-item">
-                    <span>{{ rental.book.title }} - Return by: {{ rental.return_date|date:"F d, Y" }}</span>
-                    {% if rental.return_date >= now %}
-                        <a href="{{ rental.book.sample_pdf.url }}" class="btn btn-primary" target="_blank">Read Book</a>
-                    {% else %}
-                        <span class="text-muted">This book has expired.</span>
-                    {% endif %}
+                <div class="rental-item" data-return-date="{{ rental.return_date|date:'c' }}">
+                    <img src="{{ rental.book.cover_image.url }}" alt="{{ rental.book.title }}" class="book-image">
+                    <div>
+                        <p style="color: #86949c; font-weight: 500;"><span>{{ rental.book.title }}</span> <br> Return by: {{ rental.return_date|date:"F d, Y" }}</p>
+                        <p class="remaining-time" style="color: red;">Calculating...</p>
+                        <a href="{{ rental.book.sample_pdf.url }}" class="btn btn-primary mt-1" target="_blank">Read Book</a>
+                    </div>
                 </div>
                 {% endfor %}
                 {% else %}
@@ -121,8 +164,11 @@
                 {% if purchases %}
                 {% for purchase in purchases %}
                 <div class="purchase-item">
-                    <span>{{ purchase.book.title }} - Purchased on: {{ purchase.purchase_date|date:"F d, Y" }}</span>
-                    <a href="{{ purchase.book.full_pdf.url }}" class="btn btn-success" download>Download</a>
+                    <img src="{{ purchase.book.cover_image.url }}" alt="{{ purchase.book.title }}" class="book-image">
+                    <div>
+                        <p style="color: #86949c; font-weight: 500;"><span>{{ purchase.book.title }}</span> <br> Purchased on: {{ purchase.purchase_date|date:"F d, Y" }}</p>
+                        <a href="{{ purchase.book.full_pdf.url }}" class="btn btn-success" download>Download</a>
+                    </div>
                 </div>
                 {% endfor %}
                 {% else %}
@@ -133,3 +179,40 @@
     </div>
 </div>
 {% endblock body %}
+
+{% block js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        function updateRemainingTime() {
+            const now = new Date();
+            const rentalItems = document.querySelectorAll('.rental-item');
+
+            rentalItems.forEach(item => {
+                const returnDate = new Date(item.getAttribute('data-return-date'));
+                const remainingTime = returnDate - now;
+
+                if (remainingTime > 0) {
+                    const remainingDays = Math.floor(remainingTime / (1000 * 60 * 60 * 24));
+                    const remainingHours = Math.floor((remainingTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    const remainingMinutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
+                    const remainingSeconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
+
+                    let timeString = '';
+                    if (remainingDays > 0) timeString += `${remainingDays} / `;
+                    if (remainingHours > 0) timeString += `${remainingHours} / `;
+                    if (remainingMinutes > 0) timeString += `${remainingMinutes} : `;
+                    if (remainingSeconds > 0) timeString += `${remainingSeconds} sec`;
+
+                    item.querySelector('.remaining-time').textContent = timeString;
+                } else {
+                    item.querySelector('.remaining-time').textContent = 'This book has expired.';
+                }
+            });
+        }
+
+        // Update time immediately and set an interval to update every second
+        updateRemainingTime();
+        setInterval(updateRemainingTime, 1000);
+    });
+</script>
+{% endblock js %}

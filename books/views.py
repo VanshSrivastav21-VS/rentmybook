@@ -96,18 +96,18 @@ def download_book(request, book_id):
 
 @login_required
 def dashboard(request):
-    user = request.user
+    rentals = Rental.objects.filter(user=request.user)
+    purchases = Purchase.objects.filter(user=request.user)
     now = timezone.now()
-    rentals = Rental.objects.filter(user=user, return_date__gte=now)
-    purchases = Purchase.objects.filter(user=user)
-    
-    context = {
-        'user': user,
-        'rentals': rentals,
-        'purchases': purchases,
-        'now': now,
-    }
-    return render(request, 'books/dashboard.html', context)
+
+    for rental in rentals:
+        remaining_time = rental.return_date - now
+        rental.remaining_days = remaining_time.days
+        rental.remaining_hours = remaining_time.seconds // 3600
+        rental.remaining_minutes = (remaining_time.seconds % 3600) // 60
+        rental.remaining_seconds = (remaining_time.seconds % 3600) % 60
+
+    return render(request, 'books/dashboard.html', {'rentals': rentals, 'purchases': purchases, 'now': now})
 
 def latest_news(request):
     news_items = News.objects.order_by('-date')    # [:3]
