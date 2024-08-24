@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}MySite{% endblock %}</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
         /* Custom styles to center the nav items */
         .navbar-nav {
@@ -15,12 +16,16 @@
             flex-grow: 1;
             text-align: left;
             margin-left: 1rem;
+            font-weight: bold;
             font-family: 'Roboto', sans-serif;
         }
         .navbar-nav-center {
             display: flex;
             justify-content: center;
             flex-grow: 2;
+        }
+        .nav-link, .dropdown-item {
+            font-family: 'Roboto', sans-serif;
         }
     </style>
 </head>
@@ -31,7 +36,7 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav navbar-nav-center" style="margin-right: 20rem;">
+            <ul class="navbar-nav navbar-nav-center" style="margin-right: 20rem; font-weight: bold;">
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'home' %}">Home</a>
                 </li>
@@ -45,7 +50,7 @@
                     <a class="nav-link" href="{% url 'about' %}">About Us</a>
                 </li>
             </ul>
-            <ul class="navbar-nav ml-auto" style="margin-right: 1rem;">
+            <ul class="navbar-nav ml-auto" style="margin-right: 1rem; font-weight: bold;">
                 {% if request.user.is_authenticated %}
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

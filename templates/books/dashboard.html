@@ -148,7 +148,8 @@
                     <div>
                         <p style="color: #86949c; font-weight: 500;"><span>{{ rental.book.title }}</span> <br> Return by: {{ rental.return_date|date:"F d, Y" }}</p>
                         <p class="remaining-time" style="color: red;">Calculating...</p>
-                        <a href="{{ rental.book.sample_pdf.url }}" class="btn btn-primary mt-1" target="_blank">Read Book</a>
+                        <!-- The Read Book button will be handled by JavaScript -->
+                        <a href="{{ rental.book.sample_pdf.url }}" class="btn btn-primary mt-1 read-book-button" target="_blank">Read Book</a>
                     </div>
                 </div>
                 {% endfor %}
@@ -206,6 +207,8 @@
                     item.querySelector('.remaining-time').textContent = timeString;
                 } else {
                     item.querySelector('.remaining-time').textContent = 'This book has expired.';
+                    // Hide the "Read Book" button
+                    item.querySelector('.read-book-button').style.display = 'none';
                 }
             });
         }
